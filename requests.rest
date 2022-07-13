@@ -22,3 +22,22 @@ Content-Type: application/json
 }
 
 ###
+
+POST http://localhost:5100/api/users/62cdb64281e8f36ae02cab28/tweets/create HTTP/1.1
+Content-Type: application/json
+
+{ 
+  "username": "testuser",
+  "message": "Test message"
+}
+
+###
+
+PUT http://localhost:5100/api/users/62cdb64281e8f36ae02cab28/tweets/62ce3c00678f23623bb4e7b8/update HTTP/1.1
+Content-Type: application/json
+
+{ 
+  "message": "Test message copy 1"
+}
+
+###
