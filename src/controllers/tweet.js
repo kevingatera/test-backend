@@ -45,7 +45,7 @@ const create = async (req, res) => {
 
   const tweetObject = await tweetDTO(tweet, null);
 
-  return res.json({ tweet: tweetObject })
+  return res.status(201).json({ tweet: tweetObject })
 };
 
 const update = async (req, res) => {
@@ -92,6 +92,11 @@ const update = async (req, res) => {
 
 const deleteById = async (req, res) => {
   const { userId, tweetId } = req.params;
+
+  // Prevent unauthorized update of a tweet
+  if (userId != req.authUser.id) {
+    throw new HttpException(401, "UNAUTHORIZED");
+  }
 
   let tweet = await Tweet.findOne({
     _id: mongoose.Types.ObjectId(tweetId),

@@ -38,6 +38,7 @@ const getUser = connection => {
 
 
   function generate(data) {
+    /* istanbul ignore next */
     if (isEmpty(data)) {
       throw new Error('User data is required');
     }
@@ -53,6 +54,7 @@ const getUser = connection => {
 
       return user;
     } catch (err) {
+      /* istanbul ignore next */
       throw err;
     }
   }

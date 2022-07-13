@@ -41,6 +41,7 @@ const getTweet = connection => {
 
 
   function generate(data) {
+    /* istanbul ignore next */
     if (isEmpty(data)) {
       throw new Error('Tweet data is required');
     }
@@ -55,6 +56,7 @@ const getTweet = connection => {
 
       return tweet;
     } catch (err) {
+      /* istanbul ignore next */
       throw err;
     }
   }

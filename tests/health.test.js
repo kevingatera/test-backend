@@ -8,6 +8,7 @@ let request;
 describe("GET /healthcheck", () => {
 
   beforeAll(async () => {
+    jest.setTimeout(10000);
     apiServer = await startServer(process.env.PORT).catch(err => {
       log.error('[server][start]', err);
       process.kill(process.pid);
@@ -15,7 +16,7 @@ describe("GET /healthcheck", () => {
     request = supertest(apiServer);
 
     // Allow time for mongo to connect
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 1000));
   });
 
   afterAll(async () => {

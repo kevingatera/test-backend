@@ -9,11 +9,10 @@ export class HttpException extends Error {
   }
 
   toString() {
+    /* istanbul ignore next */
     return `Http Exception (${this.status}): ${this.message}`;
   }
-
 }
-
 
 /**
  * Express middleware to handle HttpException errors
@@ -23,24 +22,13 @@ export class HttpException extends Error {
 export const httpErrorHandler = (err, req, res, next) => {
   // Delegate to default Express error handler if headers are already sent 
   if (res.headersSent) {
+    /* istanbul ignore next */
     return next(err);
   }
 
   if (err instanceof HttpException) {
-
     return res.status(err.status).send({ errorKey: err.errorKey, error: err.message });
   }
 
   next(err);
-};
-
-/**
- * Express middleware to throw an error mentionning the endpoint is not currently implemented
- */
-const notImplemented = () => {
-  throw new HttpException(501, "NOT_IMPLEMENTED", 'Not Implemented');
-};
-
-export default {
-  notImplemented,
 };

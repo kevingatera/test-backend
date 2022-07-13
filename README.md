@@ -22,3 +22,15 @@ To get started you `.env` must contain the following
 ```
 
 To test the endpoints use the extension called `Rest Client` the file named `requests.rest`
+
+# Usage
+
+To run the app use:
+
+`npm run dev`
+
+
+To run the tests use (also includes coverage report):
+
+`npm run test`
+

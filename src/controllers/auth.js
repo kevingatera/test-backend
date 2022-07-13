@@ -7,6 +7,7 @@ import userDTO from '../models/dtos/userDTO';
 
 const login = async (req, res, next) => {
   Passport.authenticate('local', (err, user, info) => {
+    /* istanbul ignore next */
     if (err) {
       log.error(err);
       return next(new HttpException(500, "DEFAULT_ERROR"));
@@ -17,11 +18,13 @@ const login = async (req, res, next) => {
     }
     // Use regenerate to create a new session cookie on each login
     req.session.regenerate(err => {
+      /* istanbul ignore next */
       if (err) {
         return next(new HttpException(500, "DEFAULT_ERROR"));
       }
 
       req.login(user, async (err) => {
+        /* istanbul ignore next */
         if (err) {
           log.error(err);
           return next(new HttpException(500, "DEFAULT_ERROR"));

@@ -9,6 +9,7 @@ let request;
 describe("POST /register", () => {
 
   beforeAll(async () => {
+    jest.setTimeout(10000);
     apiServer = await startServer(process.env.PORT).catch(err => {
       log.error('[server][start]', err);
       process.kill(process.pid);
@@ -16,7 +17,7 @@ describe("POST /register", () => {
     request = supertest(apiServer);
 
     // Allow time for mongo to connect
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 1000));
   });
 
   afterAll(async () => {
@@ -41,12 +42,12 @@ describe("POST /register", () => {
     // TODO: Should save the username & password to db
     // TODO: Should respond with  a json object containing the user id
 
-    test("should respond with a 200 status code", async () => {
+    test("should respond with a 201 status code", async () => {
       const response = await request.post("/api/users/register").send({
         username: `testuser${uuidv4()}`,
         password: "password123"
       })
-      expect(response.statusCode).toBe(200)
+      expect(response.statusCode).toBe(201)
     })
 
     test("should specify json in the content type header", async () => {

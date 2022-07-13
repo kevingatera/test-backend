@@ -12,6 +12,7 @@ const tweetDTO = async (tweet, ...extraProps) => {
     };
   } catch (err) {
     // TODO: Place logging here
+    /* istanbul ignore next */
     return null;
   }
 };

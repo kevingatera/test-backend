@@ -46,7 +46,7 @@ const register = async (req, res) => {
 
   // TODO: This is where we should send the sign up email
 
-  res.sendStatus(200);
+  res.sendStatus(201);
 };
 
 export default {

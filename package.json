@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "build": "babel index.js -d dist",
-    "start": "nodemon --experimental-specifier-resolution=node --exec node_modules/.bin/babel-node index.js",
+    "dev": "nodemon --experimental-specifier-resolution=node --exec node_modules/.bin/babel-node index.js",
     "test": "jest --detectOpenHandles --coverage"
   },
   "dependencies": {
