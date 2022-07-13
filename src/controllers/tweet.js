@@ -26,11 +26,6 @@ const create = async (req, res) => {
     throw new HttpException(400, "BAD_REQUEST", error.message);
   }
 
-  // Prevent unauthorized update of a tweet
-  if (userId != req.authUser.id) {
-    return next(new HttpException(401, "UNAUTHORIZED"));
-  }
-
   let { username, message } = value;
 
   const newTweet = {
@@ -39,6 +34,11 @@ const create = async (req, res) => {
     message,
     createdBy: mongoose.Types.ObjectId(req.authUser.id)
   };
+
+  // Prevent unauthorized creation of a tweet
+  if (userId != req.authUser.id || username != req.authUser.username) {
+    throw new HttpException(401, "UNAUTHORIZED");
+  }
 
   // Create tweet in database
   const tweet = await createTweet(newTweet);
@@ -62,7 +62,7 @@ const update = async (req, res) => {
 
   // Prevent unauthorized update of a tweet
   if (userId != req.authUser.id) {
-    return next(new HttpException(401, "UNAUTHORIZED"));
+    throw new HttpException(401, "UNAUTHORIZED");
   }
 
   let { message } = value;
@@ -86,9 +86,7 @@ const update = async (req, res) => {
     }
   });
 
-  // TODO: This is where we should send the sign up email
-
-  res.sendStatus(200);
+  return res.json({ tweetId: tweet._id.toString() });
 };
 export default {
   create,
