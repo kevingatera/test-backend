@@ -45,7 +45,7 @@ const create = async (req, res) => {
 
   const tweetObject = await tweetDTO(tweet, null);
 
-  return res.json({ data: tweetObject })
+  return res.json({ tweet: tweetObject })
 };
 
 const update = async (req, res) => {
@@ -74,7 +74,7 @@ const update = async (req, res) => {
 
   // Return a standard 401 if the tweet doesn't exist 
   if (!tweet || tweet.deleted) {
-    return done(null, false, { errorKey: 'TWEET_NOTFOUND' });
+    throw new HttpException(404, "TWEET_NOTFOUND");
   }
 
   // Update tweet in database
@@ -88,7 +88,72 @@ const update = async (req, res) => {
 
   return res.json({ tweetId: tweet._id.toString() });
 };
+
+
+const deleteById = async (req, res) => {
+  const { userId, tweetId } = req.params;
+
+  let tweet = await Tweet.findOne({
+    _id: mongoose.Types.ObjectId(tweetId),
+    createdBy: mongoose.Types.ObjectId(userId)
+  }).lean();
+
+  // Return a standard 404 if the user doesn't exist
+  if (!tweet || tweet.deleted) {
+    throw new HttpException(404, "TWEET_NOTFOUND");
+  }
+
+  // we are performing a soft-delete
+  await Tweet.updateOne({
+    _id: mongoose.Types.ObjectId(userId)
+  }, {
+    $set: {
+      deleted: true
+    }
+  });
+
+
+  return res.json({ tweetId: tweet._id.toString() });
+};
+
+const getById = async (req, res) => {
+  const { userId, tweetId } = req.params;
+
+  let tweet = await Tweet.findOne({
+    _id: mongoose.Types.ObjectId(tweetId),
+    createdBy: mongoose.Types.ObjectId(userId)
+  }).lean();
+
+  // Return a standard 404 if the user doesn't exist
+  if (!tweet || tweet.deleted) {
+    throw new HttpException(404, "TWEET_NOTFOUND");
+  }
+
+  const tweetObject = await tweetDTO(tweet, null);
+
+  return res.json({ tweet: tweetObject })
+};
+
+const get = async (req, res) => {
+  const { userId } = req.params;
+
+  let tweets = await Tweet.find({
+    createdBy: mongoose.Types.ObjectId(userId),
+    deleted: false
+  }).lean();
+
+  const tweetObjects = [];
+  for (const tweet of tweets) {
+    tweetObjects.push(await tweetDTO(tweet, null));
+  }
+
+  return res.json({ tweets: tweetObjects });
+};
+
 export default {
   create,
-  update
+  update,
+  deleteById,
+  getById,
+  get
 };
