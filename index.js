@@ -1,4 +1,4 @@
-// const nodemon = require('nodemon');
+/* istanbul ignore file */
 import nodemon from "nodemon";
 
 setTimeout(() => {

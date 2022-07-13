@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import log from 'loglevel';
 
 // Process Utils for Node

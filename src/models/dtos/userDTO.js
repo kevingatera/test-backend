@@ -8,8 +8,7 @@ import { userToJSON } from "../user";
 const userDTO = async (user, ...extraProps) => {
   try {
     return {
-      ...userToJSON(user, extraProps),
-      appConfig: user.appConfig,
+      ...userToJSON(user, extraProps)
     };
   } catch (err) {
     // TODO: Place logging here

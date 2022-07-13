@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import log from 'loglevel';
 
 import { User } from '../models/index.js';
@@ -18,10 +19,7 @@ export default class SessionUser {
 
       const params = {
         ...user.toObject(),
-        id: user._id.toString(),
-        appConfig: {
-          sessionExpiry: days(1)
-        },
+        id: user._id.toString()
       }
 
       // We're keeping the mongoose document reference on the request, in order run some queries further down the call tree
